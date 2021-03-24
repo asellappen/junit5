@@ -62,13 +62,6 @@ tasks {
 		jvmArgs("-Xmx1g")
 	}
 	test {
-		distribution {
-			enabled.set(true)
-			maxLocalExecutors.set(0)
-		}
-		jvmArgs("--add-opens", "java.base/java.lang=ALL-UNNAMED")
-		jvmArgs("--add-opens", "java.base/java.util=ALL-UNNAMED")
-		jvmArgs("--add-opens", "java.base/java.nio=ALL-UNNAMED")
 		inputs.dir("src/test/resources").withPathSensitivity(RELATIVE)
 	}
 	test_4_12 {

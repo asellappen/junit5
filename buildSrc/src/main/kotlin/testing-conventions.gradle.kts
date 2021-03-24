@@ -18,6 +18,16 @@ tasks.withType<Test>().configureEach {
 	retry {
 		maxRetries.set(providers.gradleProperty("retries").map(String::toInt).orElse(2))
 	}
+	distribution {
+		enabled.convention(providers.gradleProperty("enableTestDistribution").map(String::toBoolean).orElse(false))
+		maxLocalExecutors.set(providers.gradleProperty("testDistribution.maxLocalExecutors").map(String::toInt))
+		maxRemoteExecutors.set(providers.gradleProperty("testDistribution.maxRemoteExecutors").map(String::toInt))
+	}
+	jvmArgs( // Temporary workaround until next test-distribution plugin patch release
+		"--add-opens", "java.base/java.lang=ALL-UNNAMED",
+		"--add-opens", "java.base/java.util=ALL-UNNAMED",
+		"--add-opens", "java.base/java.nio=ALL-UNNAMED"
+	)
 	systemProperty("java.util.logging.manager", "org.apache.logging.log4j.jul.LogManager")
 	// Required until ASM officially supports the JDK 14
 	systemProperty("net.bytebuddy.experimental", true)
