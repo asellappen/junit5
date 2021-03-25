@@ -58,6 +58,14 @@ gradleEnterprise {
 				ipAddresses { emptyList() }
 			}
 		}
+
+		val enableTestDistribution = providers.gradleProperty("enableTestDistribution")
+			.forUseAtConfigurationTime()
+			.map(String::toBoolean)
+			.getOrElse(false)
+		if (enableTestDistribution) {
+			tag("test-distribution")
+		}
 	}
 }
 
