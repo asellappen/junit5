@@ -42,8 +42,6 @@ dependencies {
 }
 
 tasks.test {
-	inputs.dir("projects")
-
 	// Opt-in via system property: '-Dplatform.tooling.support.tests.enabled=true'
 	enabled = System.getProperty("platform.tooling.support.tests.enabled")?.toBoolean() ?: false
 
@@ -54,33 +52,40 @@ tasks.test {
 		// All maven-aware projects must be installed, i.e. published to the local repository
 		val mavenizedProjects: List<Project> by rootProject
 		val tempRepoName: String by rootProject
-		val tempRepoDir: File by rootProject
 
 		(mavenizedProjects + project(":junit-bom"))
 				.map { project -> project.tasks.named("publishAllPublicationsTo${tempRepoName.capitalize()}Repository") }
 				.forEach { dependsOn(it) }
-
-		// Pass version constants (declared in Versions.kt) to tests as system properties
-		systemProperty("Versions.apiGuardian", versions.apiguardian)
-		systemProperty("Versions.assertJ", versions.assertj)
-		systemProperty("Versions.junit4", versions.junit4)
-		systemProperty("Versions.ota4j", versions.opentest4j)
-
-		jvmArgumentProviders += MavenRepo(tempRepoDir)
-		jvmArgumentProviders += JavaHomeDir(project, 8)
 	}
+
+	val tempRepoDir: File by rootProject
+	jvmArgumentProviders += MavenRepo(tempRepoDir)
+
+	// Pass version constants (declared in Versions.kt) to tests as system properties
+	systemProperty("Versions.apiGuardian", versions.apiguardian)
+	systemProperty("Versions.assertJ", versions.assertj)
+	systemProperty("Versions.junit4", versions.junit4)
+	systemProperty("Versions.ota4j", versions.opentest4j)
 
 	(options as JUnitPlatformOptions).apply {
 		includeEngines("archunit")
 	}
 
-	inputs.file("${rootDir}/gradle.properties")
-	inputs.file("${rootDir}/settings.gradle.kts")
-	inputs.file("${rootDir}/gradlew")
-	inputs.file("${rootDir}/gradlew.bat")
-	inputs.dir("${rootDir}/gradle/wrapper").withPathSensitivity(RELATIVE)
-	inputs.dir("${rootDir}/documentation/src/main").withPathSensitivity(RELATIVE)
-	inputs.dir("${rootDir}/documentation/src/test").withPathSensitivity(RELATIVE)
+	inputs.apply {
+		dir("projects").withPathSensitivity(RELATIVE)
+		file("${rootDir}/gradle.properties")
+		file("${rootDir}/settings.gradle.kts")
+		file("${rootDir}/gradlew")
+		file("${rootDir}/gradlew.bat")
+		dir("${rootDir}/gradle/wrapper").withPathSensitivity(RELATIVE)
+		dir("${rootDir}/documentation/src/main").withPathSensitivity(RELATIVE)
+		dir("${rootDir}/documentation/src/test").withPathSensitivity(RELATIVE)
+	}
+
+	distribution {
+		requirements.add("jdk=8")
+	}
+	jvmArgumentProviders += JavaHomeDir(project, 8)
 
 	maxParallelForks = 1 // Bartholdy.install is not parallel safe, see https://github.com/sormuras/bartholdy/issues/4
 }
