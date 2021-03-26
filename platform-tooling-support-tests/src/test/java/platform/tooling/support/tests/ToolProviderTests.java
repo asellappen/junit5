@@ -10,6 +10,7 @@
 
 package platform.tooling.support.tests;
 
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertLinesMatch;
@@ -26,7 +27,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ServiceLoader;
@@ -37,30 +37,30 @@ import java.util.stream.StreamSupport;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
 import platform.tooling.support.Helper;
 import platform.tooling.support.MavenRepo;
+import platform.tooling.support.Request;
 
 /**
  * @since 1.6
  */
 class ToolProviderTests {
 
-	@TempDir
-	static Path LIB;
+	private static final Path LIB = Request.WORKSPACE.resolve("tool-provider-tests/lib");
 
 	@BeforeAll
 	static void prepareLocalLibraryDirectoryWithJUnitPlatformModules() {
 		try {
+			var lib = Files.createDirectories(LIB);
 			for (var module : Helper.loadModuleDirectoryNames()) {
 				if (module.startsWith("junit-platform")) {
 					var jar = MavenRepo.jar(module);
-					Files.copy(jar, LIB.resolve(jar.getFileName()), StandardCopyOption.REPLACE_EXISTING);
+					Files.copy(jar, lib.resolve(module + ".jar"), REPLACE_EXISTING);
 				}
 			}
-			Helper.load(LIB, "org.apiguardian", "apiguardian-api", Helper.version("apiGuardian", "1.1.0"));
-			Helper.load(LIB, "org.opentest4j", "opentest4j", Helper.version("ota4j", "1.2.0"));
+			Helper.load(lib, "org.apiguardian", "apiguardian-api", Helper.version("apiGuardian", "1.1.0"));
+			Helper.load(lib, "org.opentest4j", "opentest4j", Helper.version("ota4j", "1.2.0"));
 		}
 		catch (Exception e) {
 			throw new AssertionError("Preparing local library folder failed", e);
