@@ -13,7 +13,6 @@ package platform.tooling.support.tests;
 import static org.junit.jupiter.api.Assertions.assertLinesMatch;
 
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -61,8 +60,6 @@ class MavenPomFileTests {
 			"  </dependencies>", //
 			">> TAIL >>");
 
-		System.out.println(Path.of(".").toAbsolutePath().normalize());
-
 		assertLinesMatch(expected, Files.readAllLines(MavenRepo.pom("junit-jupiter")));
 	}
 
@@ -72,8 +69,6 @@ class MavenPomFileTests {
 		var expected = List.of(">> HEAD >>", //
 			"  <!-- do_not_remove: published-with-gradle-metadata -->", //
 			">> TAIL >>");
-
-		System.out.println(Path.of(".").toAbsolutePath().normalize());
 
 		assertLinesMatch(expected, Files.readAllLines(MavenRepo.pom("junit-jupiter")));
 	}

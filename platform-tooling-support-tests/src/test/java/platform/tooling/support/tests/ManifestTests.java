@@ -39,12 +39,9 @@ class ManifestTests {
 	void manifestEntriesAdhereToConventions(String module) throws Exception {
 		var version = Helper.version(module);
 		var jarFile = MavenRepo.jar(module).toFile();
-		System.out.println("jarFile = " + jarFile);
 		try (var jar = new Jar(jarFile)) {
 			var manifest = jar.getManifest();
-			System.out.println("manifest = " + manifest);
 			var attributes = manifest.getMainAttributes();
-			System.out.println("attributes = " + attributes);
 			assertValue(attributes, "Built-By", "JUnit Team");
 			assertValue(attributes, "Specification-Title", module);
 			assertValue(attributes, "Specification-Version", specificationVersion(version));
