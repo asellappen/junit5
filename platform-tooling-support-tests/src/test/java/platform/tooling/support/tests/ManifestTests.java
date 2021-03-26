@@ -15,8 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.io.File;
-import java.lang.module.ModuleFinder;
 import java.util.jar.Attributes;
 
 import aQute.bnd.osgi.Domain;

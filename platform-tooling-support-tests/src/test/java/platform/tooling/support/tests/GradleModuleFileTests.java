@@ -13,7 +13,6 @@ package platform.tooling.support.tests;
 import static org.junit.jupiter.api.Assertions.assertLinesMatch;
 
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
