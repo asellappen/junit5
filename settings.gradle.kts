@@ -1,6 +1,10 @@
 import com.gradle.enterprise.gradleplugin.internal.extension.BuildScanExtensionWithHiddenFeatures
 
 pluginManagement {
+	repositories {
+		gradlePluginPortal()
+		maven(url = "https://repo.gradle.org/gradle/enterprise-libs-release-candidates-local/")
+	}
 	plugins {
 		id("com.gradle.enterprise") version settings.extra["gradle.enterprise.plugin.version"] as String
 		id("com.gradle.enterprise.test-distribution") version settings.extra["test.distribution.plugin.version"] as String
