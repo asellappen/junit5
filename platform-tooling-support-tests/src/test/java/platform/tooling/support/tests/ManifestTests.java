@@ -14,7 +14,6 @@ import static aQute.bnd.osgi.Constants.VERSION_ATTRIBUTE;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static platform.tooling.support.Helper.createJarPath;
 
 import java.io.File;
 import java.lang.module.ModuleFinder;
@@ -28,7 +27,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.osgi.framework.Version;
 import org.osgi.framework.VersionRange;
+
 import platform.tooling.support.Helper;
+import platform.tooling.support.MavenRepo;
 
 /**
  * @since 1.5
@@ -39,12 +40,13 @@ class ManifestTests {
 	@MethodSource("platform.tooling.support.Helper#loadModuleDirectoryNames")
 	void manifestEntriesAdhereToConventions(String module) throws Exception {
 		var version = Helper.version(module);
-		var modulePath = createJarPath(module);
-		var uri = ModuleFinder.of(modulePath).findAll().iterator().next().location().orElseThrow();
-		var jarFile = new File(uri);
+		var jarFile = MavenRepo.jar(module).toFile();
+		System.out.println("jarFile = " + jarFile);
 		try (var jar = new Jar(jarFile)) {
 			var manifest = jar.getManifest();
+			System.out.println("manifest = " + manifest);
 			var attributes = manifest.getMainAttributes();
+			System.out.println("attributes = " + attributes);
 			assertValue(attributes, "Built-By", "JUnit Team");
 			assertValue(attributes, "Specification-Title", module);
 			assertValue(attributes, "Specification-Version", specificationVersion(version));

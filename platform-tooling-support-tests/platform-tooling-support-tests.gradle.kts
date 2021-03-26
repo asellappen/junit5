@@ -1,3 +1,4 @@
+import org.gradle.api.tasks.PathSensitivity.RELATIVE
 import org.gradle.jvm.toolchain.internal.NoToolchainAvailableException
 
 plugins {
@@ -73,14 +74,18 @@ tasks.test {
 		includeEngines("archunit")
 	}
 
-	distribution {
-		enabled.set(false)
-	}
+	inputs.file("${rootDir}/gradle.properties")
+	inputs.file("${rootDir}/settings.gradle.kts")
+	inputs.file("${rootDir}/gradlew")
+	inputs.file("${rootDir}/gradlew.bat")
+	inputs.dir("${rootDir}/gradle/wrapper").withPathSensitivity(RELATIVE)
+	inputs.dir("${rootDir}/documentation/src/main").withPathSensitivity(RELATIVE)
+	inputs.dir("${rootDir}/documentation/src/test").withPathSensitivity(RELATIVE)
 
 	maxParallelForks = 1 // Bartholdy.install is not parallel safe, see https://github.com/sormuras/bartholdy/issues/4
 }
 
-class MavenRepo(@get:InputDirectory @get:PathSensitive(PathSensitivity.RELATIVE) val repoDir: File) : CommandLineArgumentProvider {
+class MavenRepo(@get:InputDirectory @get:PathSensitive(RELATIVE) val repoDir: File) : CommandLineArgumentProvider {
 	override fun asArguments() = listOf("-Dmaven.repo=$repoDir")
 }
 

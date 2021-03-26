@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import platform.tooling.support.MavenRepo;
 
 /**
  * @since 1.6
@@ -160,9 +161,6 @@ class GradleModuleFileTests {
 			"  ]", //
 			"}");
 
-		System.out.println(Path.of(".").toAbsolutePath().normalize());
-
-		assertLinesMatch(expected,
-			Files.readAllLines(Path.of("../junit-jupiter/build/publications/maven/module.json")));
+		assertLinesMatch(expected, Files.readAllLines(MavenRepo.gradleModuleMetadata("junit-jupiter")));
 	}
 }

@@ -39,6 +39,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import platform.tooling.support.Helper;
+import platform.tooling.support.MavenRepo;
 import platform.tooling.support.Request;
 
 /**
@@ -54,7 +55,7 @@ class ToolProviderTests {
 			var lib = Files.createDirectories(LIB);
 			for (var module : Helper.loadModuleDirectoryNames()) {
 				if (module.startsWith("junit-platform")) {
-					var jar = Helper.createJarPath(module);
+					var jar = MavenRepo.jar(module);
 					Files.copy(jar, lib.resolve(jar.getFileName()), StandardCopyOption.REPLACE_EXISTING);
 				}
 			}
