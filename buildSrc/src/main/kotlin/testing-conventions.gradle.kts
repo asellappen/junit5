@@ -20,7 +20,7 @@ tasks.withType<Test>().configureEach {
 	}
 	distribution {
 		enabled.convention(providers.gradleProperty("enableTestDistribution").map(String::toBoolean).orElse(false))
-		maxLocalExecutors.set(providers.gradleProperty("testDistribution.maxLocalExecutors").map(String::toInt))
+		maxLocalExecutors.set(providers.gradleProperty("testDistribution.maxLocalExecutors").map(String::toInt).orElse(1))
 		maxRemoteExecutors.set(providers.gradleProperty("testDistribution.maxRemoteExecutors").map(String::toInt))
 	}
 	jvmArgs( // Temporary workaround until next test-distribution plugin patch release
