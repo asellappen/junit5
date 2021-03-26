@@ -37,30 +37,30 @@ import java.util.stream.StreamSupport;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import platform.tooling.support.Helper;
 import platform.tooling.support.MavenRepo;
-import platform.tooling.support.Request;
 
 /**
  * @since 1.6
  */
 class ToolProviderTests {
 
-	private static final Path LIB = Request.WORKSPACE.resolve("tool-provider-tests/lib");
+	@TempDir
+	static Path LIB;
 
 	@BeforeAll
 	static void prepareLocalLibraryDirectoryWithJUnitPlatformModules() {
 		try {
-			var lib = Files.createDirectories(LIB);
 			for (var module : Helper.loadModuleDirectoryNames()) {
 				if (module.startsWith("junit-platform")) {
 					var jar = MavenRepo.jar(module);
-					Files.copy(jar, lib.resolve(jar.getFileName()), StandardCopyOption.REPLACE_EXISTING);
+					Files.copy(jar, LIB.resolve(jar.getFileName()), StandardCopyOption.REPLACE_EXISTING);
 				}
 			}
-			Helper.load(lib, "org.apiguardian", "apiguardian-api", Helper.version("apiGuardian", "1.1.0"));
-			Helper.load(lib, "org.opentest4j", "opentest4j", Helper.version("ota4j", "1.2.0"));
+			Helper.load(LIB, "org.apiguardian", "apiguardian-api", Helper.version("apiGuardian", "1.1.0"));
+			Helper.load(LIB, "org.opentest4j", "opentest4j", Helper.version("ota4j", "1.2.0"));
 		}
 		catch (Exception e) {
 			throw new AssertionError("Preparing local library folder failed", e);
