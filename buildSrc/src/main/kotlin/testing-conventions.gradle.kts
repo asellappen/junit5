@@ -29,7 +29,7 @@ tasks.withType<Test>().configureEach {
 		if (isCiServer) {
 			when {
 				OperatingSystem.current().isLinux -> requirements.add("os=linux")
-				OperatingSystem.current().isWindows -> requirements.add("os=windows")
+//				OperatingSystem.current().isWindows -> requirements.add("os=windows")
 				OperatingSystem.current().isMacOsX -> requirements.add("os=macos")
 			}
 		}

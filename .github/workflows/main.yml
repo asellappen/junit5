@@ -97,6 +97,8 @@ jobs:
       with:
         java-version: 11
     - name: Test
+      env:
+        ORG_GRADLE_PROJECT_enableTestDistribution: true
       shell: bash
       run: |
         ./gradlew --version
