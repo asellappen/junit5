@@ -33,6 +33,7 @@ tasks.withType<Test>().configureEach {
 				OperatingSystem.current().isMacOsX -> requirements.add("os=macos")
 			}
 		}
+		requirements.add("local-test")
 	}
 	systemProperty("java.util.logging.manager", "org.apache.logging.log4j.jul.LogManager")
 	// Required until ASM officially supports the JDK 14
