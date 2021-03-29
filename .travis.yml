@@ -1,8 +1,8 @@
 # ----------------------------------------------------------------------------
 #
-# Package             : spring-boot
-# Source Repo         : https://github.com/spring-projects/spring-boot
-# Travis Job Link     : https://travis-ci.com/github/asellappen/spring-boot/
+# Package             : junit5
+# Source Repo         : https://github.com/spring-projects/junit5
+# Travis Job Link     : https://github.com/junit-team/junit5.git
 # Created travis.yml  : Yes
 # Maintainer          : Arumugam N S <asellappen@yahoo.com> / Priya Seth<sethp@us.ibm.com>
 #
@@ -14,7 +14,7 @@ dist: focal
 language: java
 
 jdk:
-   - openjdk17
+   - openjdk15
 os:
   - linux
 arch:
