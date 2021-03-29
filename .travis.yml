@@ -14,7 +14,7 @@ dist: focal
 language: java
 
 jdk:
-   - openjdk11
+   - openjdk8
 os:
   - linux
 arch:
