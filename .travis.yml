@@ -1,0 +1,28 @@
+# ----------------------------------------------------------------------------
+#
+# Package             : spring-boot
+# Source Repo         : https://github.com/spring-projects/spring-boot
+# Travis Job Link     : https://travis-ci.com/github/asellappen/spring-boot/
+# Created travis.yml  : Yes
+# Maintainer          : Arumugam N S <asellappen@yahoo.com> / Priya Seth<sethp@us.ibm.com>
+#
+# Script License      : Apache License, Version 2 or later
+#
+# ----------------------------------------------------------------------------
+dist: focal
+
+language: java
+
+jdk:
+   - openjdk11
+os:
+  - linux
+arch:
+  - amd64
+  - ppc64le
+script :
+    - ./gradlew build
+    - ./gradlew clean test
+    - ./gradlew --version
+    - ./gradlew javaToolchains -Porg.gradle.java.installations.auto-download=false
+    -  ./gradlew --no-parallel --stacktrace -Dplatform.tooling.support.tests.enabled=true -PenableJaCoCo -Porg.gradle.java.installations.auto-download=false build jacocoRootReport
