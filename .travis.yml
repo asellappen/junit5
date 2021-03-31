@@ -25,7 +25,7 @@ before_install:
        sudo add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ ;
        sudo rm -rf /var/lib/apt/lists/* ;
        sudo apt-get update -y ;
-       sudo apt install adoptopenjdk-8-hotspot -y ;
+       sudo apt install adoptopenjdk-9-hotspot -y ;
        sudo apt remove adoptopenjdk-11-hotspot -y ;
        java -version ;
      fi
