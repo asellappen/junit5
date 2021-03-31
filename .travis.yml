@@ -14,12 +14,22 @@ dist: focal
 language: java
 
 jdk:
-   - openjdk15
+   - openjdk11
 os:
   - linux
 arch:
   - amd64
   - ppc64le
+before_install:
+   - if [ "$TRAVIS_CPU_ARCH" = "ppc64le" ]; then
+       sudo wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | sudo apt-key add - ;
+       sudo add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ ;
+       sudo rm -rf /var/lib/apt/lists/* ;
+       sudo apt-get update -y ;
+       sudo apt install adoptopenjdk-8-hotspot -y ;
+       sudo apt remove adoptopenjdk-11-hotspot -y ;
+       java -version ;
+     fi
 script :
     - ./gradlew build
     - ./gradlew clean test
