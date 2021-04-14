@@ -14,7 +14,7 @@ language: java
 
 jdk:
    - openjdk11
-   - openjdk15
+   - openjdk8
 os:
   - linux
 arch:
@@ -26,4 +26,4 @@ script :
     - ./gradlew clean test
     - ./gradlew --version
     - ./gradlew javaToolchains -Porg.gradle.java.installations.auto-download=false
-    -  ./gradlew --no-parallel --stacktrace -Dplatform.tooling.support.tests.enabled=true -PenableJaCoCo -Porg.gradle.java.installations.auto-download=false build jacocoRootReport
+    - ./gradlew --no-parallel --stacktrace -Dplatform.tooling.support.tests.enabled=true -PenableJaCoCo -Porg.gradle.java.installations.auto-download=false build jacocoRootReport
